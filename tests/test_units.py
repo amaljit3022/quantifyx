@@ -39,3 +39,24 @@ def test_area_from_base():
 def test_invalid_area_unit():
     with pytest.raises(InvalidAreaUnitError):
         area_to_base(5, "bigha")
+
+from quantifyx.units.volume_units import to_base as volume_to_base
+from quantifyx.units.volume_units import from_base as volume_from_base
+from quantifyx.units.volume_units import InvalidVolumeUnitError
+
+
+def test_volume_to_base():
+    assert volume_to_base(1, "liter") == 0.001
+    assert volume_to_base(1000, "liter") == 1
+    assert round(volume_to_base(1, "ft3"), 6) == 0.028317
+
+
+def test_volume_from_base():
+    assert volume_from_base(1, "liter") == 1000
+    assert volume_from_base(1, "ml") == 1_000_000
+    assert round(volume_from_base(0.003785411784, "gallon_us"), 2) == 1.00
+
+
+def test_invalid_volume_unit():
+    with pytest.raises(InvalidVolumeUnitError):
+        volume_to_base(10, "bucket")
