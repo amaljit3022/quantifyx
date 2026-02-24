@@ -60,3 +60,24 @@ def test_volume_from_base():
 def test_invalid_volume_unit():
     with pytest.raises(InvalidVolumeUnitError):
         volume_to_base(10, "bucket")
+
+from quantifyx.units.mass import to_base as mass_to_base
+from quantifyx.units.mass import from_base as mass_from_base
+from quantifyx.units.mass import InvalidMassUnitError
+
+
+def test_mass_to_base():
+    assert mass_to_base(1000, "g") == 1
+    assert mass_to_base(1, "tonne") == 1000
+    assert round(mass_to_base(1, "lb"), 6) == 0.453592
+
+
+def test_mass_from_base():
+    assert mass_from_base(1, "g") == 1000
+    assert mass_from_base(1000, "tonne") == 1
+    assert round(mass_from_base(0.45359237, "lb"), 2) == 1.00
+
+
+def test_invalid_mass_unit():
+    with pytest.raises(InvalidMassUnitError):
+        mass_to_base(5, "stone")
