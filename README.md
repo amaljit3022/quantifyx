@@ -90,4 +90,3 @@ This project is licensed under the MIT License.
 - 100% tested core modules
 
 Test branch protection setup.
-Branch protection test.
