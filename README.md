@@ -75,3 +75,16 @@ Project under: **The Krittika Project**
 ## License
 
 This project is licensed under the MIT License.
+
+---
+
+## Release History
+
+### v0.2.0
+- Complete unit system (length, area, volume, mass, flow, velocity)
+- Physics layer (density, pressure, Darcy-Weisbach)
+- Colebrook-White solver
+- Intelligent friction factor selector
+- High-level hydraulics pipe API
+- Pipe material roughness database
+- 100% tested core modules
