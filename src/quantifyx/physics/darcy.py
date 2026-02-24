@@ -136,3 +136,58 @@ def friction_factor_auto(
 
     # Turbulent rough pipe
     return friction_factor_colebrook(reynolds, diameter_m, roughness_m)
+
+def pipe_headloss(
+    length_m: float,
+    diameter_m: float,
+    flow_m3s: float,
+    roughness_m: float,
+    kinematic_viscosity: float,
+) -> dict:
+    """
+    Full pipe headloss calculation using Darcy-Weisbach.
+
+    Returns structured result:
+    {
+        "velocity": ...,
+        "reynolds": ...,
+        "friction_factor": ...,
+        "headloss": ...
+    }
+    """
+
+    if (
+        length_m <= 0
+        or diameter_m <= 0
+        or flow_m3s <= 0
+        or roughness_m < 0
+        or kinematic_viscosity <= 0
+    ):
+        raise InvalidDarcyInputError("Invalid pipe inputs.")
+
+    # Cross-sectional area
+    area = 3.141592653589793 * (diameter_m / 2) ** 2
+
+    # Velocity
+    velocity = flow_m3s / area
+
+    # Reynolds number
+    reynolds = reynolds_number(velocity, diameter_m, kinematic_viscosity)
+
+    # Friction factor
+    friction = friction_factor_auto(reynolds, diameter_m, roughness_m)
+
+    # Headloss
+    headloss = headloss_darcy(
+        friction,
+        length_m,
+        diameter_m,
+        velocity,
+    )
+
+    return {
+        "velocity": velocity,
+        "reynolds": reynolds,
+        "friction_factor": friction,
+        "headloss": headloss,
+    }

@@ -55,3 +55,20 @@ def test_auto_turbulent_smooth():
 def test_auto_turbulent_rough():
     f = friction_factor_auto(100000, 0.2, 0.0002)
     assert f > 0
+
+from quantifyx.physics.darcy import pipe_headloss
+
+
+def test_pipe_headloss_wrapper():
+    result = pipe_headloss(
+        length_m=100,
+        diameter_m=0.2,
+        flow_m3s=0.01,
+        roughness_m=0.0002,
+        kinematic_viscosity=1e-6,
+    )
+
+    assert result["velocity"] > 0
+    assert result["reynolds"] > 0
+    assert result["friction_factor"] > 0
+    assert result["headloss"] > 0
