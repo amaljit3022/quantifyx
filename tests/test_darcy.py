@@ -1,5 +1,6 @@
 import pytest
 from quantifyx.physics.darcy import friction_factor_colebrook
+from quantifyx.physics.darcy import friction_factor_auto
 
 from quantifyx.physics.darcy import (
     reynolds_number,
@@ -40,3 +41,17 @@ def test_colebrook_smooth_pipe():
     # Example: Re = 100000, smooth pipe (roughness ~ 0)
     f = friction_factor_colebrook(100000, 0.2, 0.000001)
     assert f == pytest.approx(0.018, rel=0.05)
+
+def test_auto_laminar():
+    f = friction_factor_auto(1000, 0.1)
+    assert f == pytest.approx(0.064, rel=1e-3)
+
+
+def test_auto_turbulent_smooth():
+    f = friction_factor_auto(100000, 0.1, 0)
+    assert f == pytest.approx(0.018, rel=0.1)
+
+
+def test_auto_turbulent_rough():
+    f = friction_factor_auto(100000, 0.2, 0.0002)
+    assert f > 0

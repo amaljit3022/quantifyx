@@ -103,3 +103,36 @@ def friction_factor_colebrook(
         f = new_f
 
     raise InvalidDarcyInputError("Colebrook equation did not converge.")
+
+def friction_factor_auto(
+    reynolds: float,
+    diameter_m: float,
+    roughness_m: float = 0.0,
+) -> float:
+    """
+    Automatically select appropriate friction factor model.
+
+    Parameters
+    ----------
+    reynolds : float
+    diameter_m : float
+    roughness_m : float (default 0 for smooth pipe)
+
+    Returns
+    -------
+    float
+        Darcy friction factor
+    """
+    if reynolds <= 0 or diameter_m <= 0 or roughness_m < 0:
+        raise InvalidDarcyInputError("Invalid inputs for friction factor.")
+
+    # Laminar flow
+    if reynolds < 2000:
+        return friction_factor_laminar(reynolds)
+
+    # Turbulent smooth pipe
+    if roughness_m == 0:
+        return friction_factor_blasius(reynolds)
+
+    # Turbulent rough pipe
+    return friction_factor_colebrook(reynolds, diameter_m, roughness_m)
