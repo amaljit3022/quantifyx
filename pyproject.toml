@@ -1,0 +1,39 @@
+[build-system]
+requires = ["setuptools>=68.0"]
+build-backend = "setuptools.build_meta"
+
+
+[project]
+name = "quantifyx"
+version = "0.1.0"
+description = "Precision-focused engine for mathematical shapes, units, and engineering measurements."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [
+    { name = "Amaljit Bharali", email = "amaljit.bharali@gmail.com" }
+]
+
+keywords = [
+    "engineering",
+    "geometry",
+    "units",
+    "measurements",
+    "conversions"
+]
+
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10"
+]
+
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
