@@ -88,3 +88,6 @@ This project is licensed under the MIT License.
 - High-level hydraulics pipe API
 - Pipe material roughness database
 - 100% tested core modules
+
+Test branch protection setup.
+Branch protection test.
