@@ -1,11 +1,6 @@
 from math import pi
 
-from quantifyx.exceptions import QuantifyXError
-
-
-class InvalidDimensionError(QuantifyXError):
-    """Raised when a geometric dimension is invalid."""
-    pass
+from quantifyx.exceptions import InvalidDimensionError
 
 
 def circle(radius: float) -> float:
