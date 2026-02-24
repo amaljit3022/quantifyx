@@ -1,3 +1,4 @@
+import math
 from quantifyx.exceptions import QuantifyXError
 
 
@@ -56,3 +57,49 @@ def headloss_darcy(
         * (length_m / diameter_m)
         * (velocity_ms ** 2 / (2 * _GRAVITY))
     )
+
+def friction_factor_colebrook(
+    reynolds: float,
+    diameter_m: float,
+    roughness_m: float,
+    tol: float = 1e-6,
+    max_iter: int = 100,
+) -> float:
+    """
+    Solve Colebrook-White equation for friction factor using iteration.
+
+    Parameters
+    ----------
+    reynolds : float
+        Reynolds number
+    diameter_m : float
+        Pipe diameter (m)
+    roughness_m : float
+        Absolute roughness (m)
+
+    Returns
+    -------
+    float
+        Darcy friction factor
+    """
+    if reynolds <= 0 or diameter_m <= 0 or roughness_m < 0:
+        raise InvalidDarcyInputError("Invalid inputs for Colebrook equation.")
+
+    # Initial guess (Blasius as starting point)
+    f = 0.02
+
+    for _ in range(max_iter):
+        lhs = 1 / math.sqrt(f)
+        rhs = -2.0 * math.log10(
+            (roughness_m / (3.7 * diameter_m))
+            + (2.51 / (reynolds * math.sqrt(f)))
+        )
+
+        new_f = 1 / (rhs ** 2)
+
+        if abs(new_f - f) < tol:
+            return new_f
+
+        f = new_f
+
+    raise InvalidDarcyInputError("Colebrook equation did not converge.")

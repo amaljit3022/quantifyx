@@ -1,4 +1,5 @@
 import pytest
+from quantifyx.physics.darcy import friction_factor_colebrook
 
 from quantifyx.physics.darcy import (
     reynolds_number,
@@ -34,3 +35,8 @@ def test_headloss():
 def test_invalid_inputs():
     with pytest.raises(InvalidDarcyInputError):
         reynolds_number(-1, 0.1, 1e-6)
+
+def test_colebrook_smooth_pipe():
+    # Example: Re = 100000, smooth pipe (roughness ~ 0)
+    f = friction_factor_colebrook(100000, 0.2, 0.000001)
+    assert f == pytest.approx(0.018, rel=0.05)
